@@ -1,44 +1,75 @@
 export class Negociacao {
-    // ===> this is a okay way of doing this <== //
-    // private _data: Date;
-    // private _quantidade: number;
-    // private _valor: number;
-    // constructor(data: Date, quantidade: number, valor: number) {
-    //   this._data = data;
-    //   this._quantidade = quantidade;
-    //   this._valor = valor;
-    // }
-    // ======== ======== //
-    // ==> Below is a better way of doing it <== //
-    constructor(_data, _quantidade, _valor) {
+    // ==> Below is a better (Simpler) way of doing it <== //
+    constructor(_data, quantidade, valor) {
         this._data = _data;
-        this._quantidade = _quantidade;
-        this._valor = _valor;
+        this.quantidade = quantidade;
+        this.valor = valor;
     }
     get data() {
-        return this._data;
+        // This is defensive programming. By doing this, I ensure _data won't be modified
+        const data = new Date(this._data.getTime());
+        return data;
     }
-    ;
-    get quantidade() {
-        return this._quantidade;
-    }
-    ;
-    get valor() {
-        return this._valor;
-    }
-    ;
     get volume() {
-        return this._quantidade * this._valor;
+        return this.quantidade * this.valor;
     }
 }
-// Another way to approach the constructor is like below
+{ /*
+  ====> FIRST ATTEMPT <=====
+
+  // ===> this is a okay way of doing this <== //
+  
+  // private _data: Date;
+  // private _quantidade: number;
+  // private _valor: number;
+
+  // constructor(data: Date, quantidade: number, valor: number) {
+  //   this._data = data;
+  //   this._quantidade = quantidade;
+  //   this._valor = valor;
+  // }
+
+   get data(): Date {
+    return this._data;
+  };
+
+  get quantidade(): number {
+    return this._quantidade;
+  };
+
+  get valor(): number {
+    return this._valor;
+  };
+
+  get volume(): number {
+    return this.quantidade * this._valor;
+  }
+
+
+
+*/
+}
 { /*
 
-  constructor(
-    public readonly data: Date;
-    public readonly quantidade: number;
-    public readonly valor: number;
-  )
+  ====> SECOND ATTEMPT <====
+
+// Another way to approach the constructor is like below
+  constructor (
+    private _data: Date,
+    private _quantidade: number,
+    private _valor: number) {}
+
+  get data(): Date {
+    return this._data;
+  };
+
+  get quantidade(): number {
+    return this._quantidade;
+  };
+
+  get valor(): number {
+    return this._valor;
+  };
 
   get volume(): number {
     return this.quantidade * this._valor;

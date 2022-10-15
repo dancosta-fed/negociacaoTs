@@ -1,13 +1,21 @@
 export class Negociacao {
-  private _data: Date;
-  private _quantidade: number;
-  private _valor: number;
+  // ===> this is a okay way of doing this <== //
+  // private _data: Date;
+  // private _quantidade: number;
+  // private _valor: number;
 
-  constructor(data: Date, quantidade: number, valor: number) {
-    this._data = data;
-    this._quantidade = quantidade;
-    this._valor = valor;
-  }
+  // constructor(data: Date, quantidade: number, valor: number) {
+  //   this._data = data;
+  //   this._quantidade = quantidade;
+  //   this._valor = valor;
+  // }
+  // ======== ======== //
+
+  // ==> Below is a better way of doing it <== //
+  constructor(
+    private _data: Date, 
+    private _quantidade: number, 
+    private _valor: number) {}
 
   get data(): Date {
     return this._data;
@@ -26,3 +34,19 @@ export class Negociacao {
   }
 
 }
+
+// Another way to approach the constructor is like below
+
+{/* 
+
+  constructor(
+    public readonly data: Date;
+    public readonly quantidade: number;
+    public readonly valor: number;
+  )
+
+  get volume(): number {
+    return this.quantidade * this._valor;
+  }
+
+*/}

@@ -13,9 +13,9 @@ export class NegociacaoController {
   private mensagemView = new MensagemView('#mensagemView');
 
   constructor() {
-    this.inputData = document.querySelector('#data');
-    this.inputQuantidade = document.querySelector('#quantidade');
-    this.inputValor = document.querySelector('#valor');
+    this.inputData = <HTMLInputElement>document.querySelector('#data'); // like this
+    this.inputQuantidade = document.querySelector('#quantidade') as HTMLInputElement; // or better like this
+    this.inputValor = document.querySelector('#valor') as HTMLInputElement;
     this.negociacoesView.update(this.negociacoes);
   }
 

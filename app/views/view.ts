@@ -6,12 +6,12 @@ export abstract class View<T> {
   constructor(selector: string) {
     this.elemento = document.querySelector(selector);
   }
-
-  update(model: T): void {
+  // using public isn't necessary. When there's nothings.. you assume the method is public.
+  public update(model: T): void {
     const template = this.template(model);
     this.elemento.innerHTML = template;
   }
   
-  abstract template(model: T): string;
+  protected abstract template(model: T): string;
 
 };

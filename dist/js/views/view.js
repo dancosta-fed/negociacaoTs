@@ -4,6 +4,7 @@ export class View {
     constructor(selector) {
         this.elemento = document.querySelector(selector);
     }
+    // using public isn't necessary. When there's nothings.. you assume the method is public.
     update(model) {
         const template = this.template(model);
         this.elemento.innerHTML = template;

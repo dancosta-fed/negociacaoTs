@@ -1,3 +1,5 @@
+import { logarTempoDeExecucao } from "../src/decorators/logar-tempo-de-execucao.js";
+
 // <T> == is for type. It will follow the child's.
 export abstract class View<T> { 
   // use PROTECTED instead of PRIVATE because it will only allow the child to acess the element.
@@ -18,7 +20,9 @@ export abstract class View<T> {
     }
   }
   // using public isn't necessary. When there's nothings.. you assume the method is public.
+  @logarTempoDeExecucao()
   public update(model: T): void {
+   
     let template = this.template(model);
     if (this.escape) {
       template = template.replace(/<script>[\s\S]*?<\/script>/, '');

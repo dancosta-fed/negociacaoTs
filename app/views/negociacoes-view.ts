@@ -1,9 +1,11 @@
 import { View } from "./view.js";
 import { Negociacoes } from "../models/negociacoes.js";
+import { escape } from "./escape.js";
 
 
  export class NegociacoesView extends View<Negociacoes> {
-
+  
+  @escape
   protected template(model: Negociacoes): string {
     return ` 
 

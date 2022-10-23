@@ -57,6 +57,23 @@ export class NegociacaoController {
     this.atualizaView();
   }
 
+  public importaDados(): void {
+    fetch('http://localhost:8080/dados')
+    .then(response => response.json())
+    .then((dados: any[]) => {
+      return dados.map(dadosDeHoje => {
+        return new Negociacao(new Date(), dadosDeHoje.vezes, dadosDeHoje.montante);
+      })
+    })
+    .then(negociacoesDeHoje => {
+      for(let negociacao of negociacoesDeHoje) {
+        this.negociacoes.adiciona(negociacao);
+      }
+      this.negociacoesView.update(this.negociacoes);
+    })
+
+  }
+
   private limparFormulario(): void {
     this.inputData.value = '';
     this.inputQuantidade.value = '';

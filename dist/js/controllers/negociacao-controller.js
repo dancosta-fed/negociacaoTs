@@ -4,7 +4,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-import { DiasDaSemana } from "../enums/dias-da-semana.js";
+import { DiasDaSemana } from "../src/enums/dias-da-semana.js";
 import { Negociacao } from "../models/negociacao.js";
 import { Negociacoes } from "../models/negociacoes.js";
 import { domInjector } from "../src/decorators/dom-injector.js";
@@ -12,11 +12,13 @@ import { inspect } from "../src/decorators/inspect.js";
 import { logarTempoDeExecucao } from "../src/decorators/logar-tempo-de-execucao.js";
 import { MensagemView } from "../views/mensagem-view.js";
 import { NegociacoesView } from "../views/negociacoes-view.js";
+import { NegociacoesService } from "../src/services/negociacoes-service.js";
 export class NegociacaoController {
     constructor() {
         this.negociacoes = new Negociacoes();
         this.negociacoesView = new NegociacoesView('#negociacoesView');
         this.mensagemView = new MensagemView('#mensagemView');
+        this.negociacoesService = new NegociacoesService();
         this.negociacoesView.update(this.negociacoes);
     }
     adiciona() {
@@ -30,16 +32,10 @@ export class NegociacaoController {
         this.atualizaView();
     }
     importaDados() {
-        fetch('http://localhost:8080/dados')
-            .then(response => response.json())
-            .then((dados) => {
-            return dados.map(dadosDeHoje => {
-                return new Negociacao(new Date(), dadosDeHoje.vezes, dadosDeHoje.montante);
-            });
-        })
+        this.negociacoesService.obterNegociacoesDoDia()
             .then(negociacoesDeHoje => {
-            for (let negociacao of negociacoesDeHoje) {
-                this.negociacoes.adiciona(negociacao);
+            for (let neg of negociacoesDeHoje) {
+                this.negociacoes.adiciona(neg);
             }
             this.negociacoesView.update(this.negociacoes);
         });

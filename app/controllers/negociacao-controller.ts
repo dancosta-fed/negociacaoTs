@@ -7,6 +7,7 @@ import { logarTempoDeExecucao } from "../src/decorators/logar-tempo-de-execucao.
 import { MensagemView } from "../views/mensagem-view.js";
 import { NegociacoesView } from "../views/negociacoes-view.js"
 import { NegociacoesService } from "../src/services/negociacoes-service.js";
+import { imprimir } from "../src/utils/imprimir.js";
 
 export class NegociacaoController {
   // === sem decorator de propiedade === //
@@ -54,7 +55,8 @@ export class NegociacaoController {
       this.mensagemView.update('Só são aceitas negociações em dias úteis');
       return;
     }
-    this.negociacoes.adiciona(negociacao);
+    this.negociacoes.adiciona(negociacao); 
+    imprimir(negociacao, this.negociacoes);
     this.limparFormulario();
     this.atualizaView();
   }
@@ -62,6 +64,13 @@ export class NegociacaoController {
   public importaDados(): void {
 
     this.negociacoesService.obterNegociacoesDoDia()
+    .then( negociacoesDeHoje => {
+      return negociacoesDeHoje.filter(negociacoesDeHoje => {
+        return !this.negociacoes
+                .lista()
+                .some(negociacao => negociacao.isEqual(negociacoesDeHoje));
+      });
+    })
     .then(negociacoesDeHoje => {
       for(let neg of negociacoesDeHoje) {
         this.negociacoes.adiciona(neg);

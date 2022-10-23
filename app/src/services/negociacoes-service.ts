@@ -11,6 +11,5 @@ export class NegociacoesService {
         return new Negociacao(new Date(), dadosDeHoje.vezes, dadosDeHoje.montante);
       })
     })
-    // .catch((err) => console.error(err));
   }
 }

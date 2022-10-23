@@ -16,7 +16,7 @@ export abstract class View<T> {
     }
   }
   // using public isn't necessary. When there's nothings.. you assume the method is public.
-  @inspect()
+  // @inspect()
   @logarTempoDeExecucao(true)
   public update(model: T): void {
    

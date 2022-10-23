@@ -1,25 +1,45 @@
 import { DiasDaSemana } from "../enums/dias-da-semana.js";
 import { Negociacao } from "../models/negociacao.js";
 import { Negociacoes } from "../models/negociacoes.js";
+import { domInjector } from "../src/decorators/dom-injector.js";
+import { inspect } from "../src/decorators/inspect.js";
 import { logarTempoDeExecucao } from "../src/decorators/logar-tempo-de-execucao.js";
 import { MensagemView } from "../views/mensagem-view.js";
 import { NegociacoesView } from "../views/negociacoes-view.js"
 
 export class NegociacaoController {
+  // === sem decorator de propiedade === //
+  // private inputData: HTMLInputElement;
+  // private inputQuantidade: HTMLInputElement;
+  // private inputValor: HTMLInputElement;
+  // private negociacoes = new Negociacoes();
+  // private negociacoesView = new NegociacoesView('#negociacoesView');
+  // private mensagemView = new MensagemView('#mensagemView');
+
+  // === com decorator de propiedade === //
+  @domInjector('#data')
   private inputData: HTMLInputElement;
+  @domInjector('#quantidade')
   private inputQuantidade: HTMLInputElement;
+  @domInjector('#valor')
   private inputValor: HTMLInputElement;
+
   private negociacoes = new Negociacoes();
   private negociacoesView = new NegociacoesView('#negociacoesView');
   private mensagemView = new MensagemView('#mensagemView');
 
   constructor() {
-    this.inputData = <HTMLInputElement>document.querySelector('#data'); // like this
-    this.inputQuantidade = document.querySelector('#quantidade') as HTMLInputElement; // or better like this
-    this.inputValor = document.querySelector('#valor') as HTMLInputElement;
+    // === sem decorator de propiedade === //
+    // this.inputData = <HTMLInputElement>document.querySelector('#data'); // like this
+    // this.inputQuantidade = document.querySelector('#quantidade') as HTMLInputElement; // or better like this
+    // this.inputValor = document.querySelector('#valor') as HTMLInputElement;
+    // this.negociacoesView.update(this.negociacoes);
+
+    // === com decorator de propiedade === //
     this.negociacoesView.update(this.negociacoes);
   }
 
+  @inspect()
   @logarTempoDeExecucao()
   public adiciona(): void {
     const negociacao = Negociacao.criaDe(
